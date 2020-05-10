@@ -25,4 +25,6 @@ class MyFlutterApp {
   static const IconData account = const IconData(0xe807, fontFamily: _kFontFam);
   static const IconData contact = const IconData(0xe808, fontFamily: _kFontFam);
   static const IconData military = const IconData(0xe809, fontFamily: _kFontFam);
+
 }
+

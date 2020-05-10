@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "243845801128",
+    "firebase_url": "https://gradutionapp.firebaseio.com",
+    "project_id": "gradutionapp",
+    "storage_bucket": "gradutionapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243845801128:android:9d045691d2a00bafab4e9d",
+        "android_client_info": {
+          "package_name": "app.com.example.gradution_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "243845801128-uade1lf5se86ti103itkb7lqkseh69ou.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCQpzG-qwXGZAJnu_i_ywi_FJCw3Zdmspo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "243845801128-uade1lf5se86ti103itkb7lqkseh69ou.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
