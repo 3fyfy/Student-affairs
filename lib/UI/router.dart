@@ -6,6 +6,7 @@ import 'package:gradution_app/UI/Screens/Calender.dart';
 import 'package:gradution_app/UI/Screens/Hospital.dart';
 import 'package:gradution_app/UI/Screens/ScanFiles.dart';
 import 'package:gradution_app/UI/Screens/basicInformation.dart';
+import 'package:gradution_app/UI/Screens/disclaimer.dart';
 import 'package:gradution_app/UI/Screens/housing.dart';
 import 'package:gradution_app/UI/Screens/housingDeatails.dart';
 import 'package:gradution_app/UI/Screens/profile.dart';
@@ -19,6 +20,9 @@ import 'package:gradution_app/UI/Screens/samer/splash.dart';
 import 'package:gradution_app/UI/Screens/samer/student_photo.dart';
 import 'package:gradution_app/UI/Screens/samer/uploaddocument.dart';
 import 'package:gradution_app/UI/Screens/samer/verification_code_page.dart';
+import 'package:gradution_app/UI/Screens/screenfinal/Military_education.dart';
+import 'package:gradution_app/UI/Screens/screenfinal/scholarship_portal.dart';
+import 'package:gradution_app/UI/Screens/screenfinal/training_portal.dart';
 import 'package:gradution_app/UI/Screens/training.dart';
 import 'package:gradution_app/UI/Screens/notification.dart';
 
@@ -37,18 +41,16 @@ class Router {
         return MaterialPageRoute(builder: (_) => Profile());
       case RoutePaths.AcceptTraining:
         return MaterialPageRoute(builder: (_) => AcceptTraining());
-      case RoutePaths.ApplyTraining:
-        return MaterialPageRoute(builder: (_) => ApplyTraining());
+
       case RoutePaths.BasicInfo:
         return MaterialPageRoute(builder: (_) => BasicInfo());
-      case RoutePaths.CalenderPage:
-        return MaterialPageRoute(builder: (_) => CalenderPage());
+//      case RoutePaths.CalenderPage:
+//        return MaterialPageRoute(builder: (_) => CalenderPage());
       case RoutePaths.Hospital:
         return MaterialPageRoute(builder: (_) => Hospital());
       case RoutePaths.Housing:
         return MaterialPageRoute(builder: (_) => Housing());
-      case RoutePaths.HousingDetails:
-        return MaterialPageRoute(builder: (_) => HousingDetails());
+
       case RoutePaths.HousingHome:
         return MaterialPageRoute(builder: (_) => HousingHome());
       case RoutePaths.medical_Examination:
@@ -67,8 +69,16 @@ class Router {
         return MaterialPageRoute(builder: (_) => NotificationPage());
       case RoutePaths.verification_Code_Page:
         return MaterialPageRoute(builder: (_) => verification_Code_Page());
-        case RoutePaths.ScanFiles:
-        return MaterialPageRoute(builder: (_) => ScanFiles());
+        case RoutePaths.scholarship_Portal:
+        return MaterialPageRoute(builder: (_) => scholarship_Portal());
+        case RoutePaths.military_education:
+        return MaterialPageRoute(builder: (_) => military_education());
+        case RoutePaths.training_Portal:
+        return MaterialPageRoute(builder: (_) => training_Portal());
+//        case RoutePaths.ScanFiles:
+//        return MaterialPageRoute(builder: (_) => ScanFiles());
+        case RoutePaths.Disclaimer:
+        return MaterialPageRoute(builder: (_) => Disclaimer());
 
       default:
         return MaterialPageRoute(

@@ -19,10 +19,19 @@ class MyFlutterApp {
   MyFlutterApp._();
 
   static const _kFontFam = 'MyFlutterApp';
+  static const _kFontPkg = null;
 
-  static const IconData group = const IconData(0xe800, fontFamily: _kFontFam);
-  static const IconData patent = const IconData(0xe805, fontFamily: _kFontFam);
-  static const IconData account = const IconData(0xe807, fontFamily: _kFontFam);
-  static const IconData contact = const IconData(0xe808, fontFamily: _kFontFam);
-  static const IconData military = const IconData(0xe809, fontFamily: _kFontFam);
+  static const IconData scan = IconData(0xe800, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData certifecate = IconData(0xe801, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData university_housing = IconData(0xe802, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData seminar = IconData(0xe803, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData add_contact = IconData(0xe804, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData bitcoin = IconData(0xe805, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData first_aid_kit = IconData(0xe806, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData military = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData scholarship = IconData(0xe808, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData group = IconData(0xe809, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData contact = IconData(0xe80a, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData account = IconData(0xe80b, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData patent = IconData(0xe80c, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

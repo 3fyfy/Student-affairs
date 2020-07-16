@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:gradution_app/UI/Screens/ScanFiles.dart';
 //import 'package:gradution_app/UI/Screens/samer/student_nomination_card.dart';
-import 'package:gradution_app/UI/Screens/copy.dart';
 
 
 class UploadedHome extends StatefulWidget {

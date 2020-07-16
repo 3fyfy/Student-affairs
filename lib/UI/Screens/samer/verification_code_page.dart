@@ -10,6 +10,20 @@ class verification_Code_Page extends StatefulWidget {
 }
 
 class _verification_Code_PageState extends State<verification_Code_Page> {
+
+  TextEditingController verificationCodeNum=TextEditingController();
+
+  DateTime initTime;
+
+  @override
+  void initState() {
+    initTime=DateTime.now();
+    // TODO: implement initState
+    super.initState();
+  }
+
+
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -57,41 +71,44 @@ class _verification_Code_PageState extends State<verification_Code_Page> {
             ),
             Center(
               child: Padding(
-                padding:  EdgeInsets.only(top: height * .067),
+                padding:  EdgeInsets.only(top: height * .067,right:width*.03),
                 child: Container(
                 height: 60,
                   padding: EdgeInsets.only(right: width*.03,left:width*.03 ),
+
+                  color: Colors.transparent,
                   child: VerificationCodeInput(
                     itemSize:50,
                     autofocus: true,
-
                     textStyle: TextStyle(fontSize: 20, color: Color(0xff2EB97F)),
                     itemDecoration: BoxDecoration(
                       color: Colors.white,
-
                       borderRadius: BorderRadius.all(Radius.circular(12)),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black38,
-                          blurRadius: 1.0, // has the effect of softening the shadow
-                          spreadRadius: .09, // has the effect of extending the shadow
-                          offset: Offset(
-                            2.0, // horizontal, move right 10
-                            1.0, // vertical, move down 10
-                          ),
-                        )
-                      ],
+                        border:Border.all(color: Theme.of(context).primaryColor)
+//                      boxShadow: [
+//                        BoxShadow(
+//                          color: Colors.black38,
+//                          blurRadius: 1.0, // has the effect of softening the shadow
+//                          spreadRadius: .2, // has the effect of extending the shadow
+//                          offset: Offset(
+//                            2.0, // horizontal, move right 10
+//                            2.0, // vertical, move down 10
+//                          ),
+//                        )
+//                      ],
                     ),
                     keyboardType: TextInputType.number,
                     length: 4,
-                    onCompleted: (String value) {},
+                    onCompleted: (String value) {
+                      verificationCodeNum.text=value;
+                    },
                   ),
                 ),
               ),
             ),
             Padding(
               padding:  EdgeInsets.only( top: height*.03,right: width*.05,left:width*.03),
-              child: Text("Resend Code in 00:30",
+              child: Text("Resend Code in ${DateTime.now().difference(initTime).inSeconds}",
                   style: TextStyle(
                       fontSize: 10,
                       fontWeight: FontWeight.w700,
@@ -100,7 +117,21 @@ class _verification_Code_PageState extends State<verification_Code_Page> {
 
             Padding(
               padding:  EdgeInsets.only(top:height*.1,right: width*.03,left:width*.03),
-              child: ButtonNext('Continue',RoutePaths.UploadedHome),
+              child:InkWell(
+                  onTap: (){
+                    bool _validate = false;
+
+                    verificationCodeNum.text.isEmpty ? _validate = true : _validate = false;
+                    if(!_validate){
+                    Navigator.of(context).pushNamed(RoutePaths.UploadedHome);
+
+                    }
+                    else{
+                      print("empty");
+                    }
+
+                  },
+                  child: ButtonNext('Continue')),
             )
 
 

@@ -16,13 +16,15 @@ class RoutePaths {
   static const String Training = 'Training';
   static const String Hospital = 'Hospital';
   static const String CalenderPage = 'CalenderPage';
-  static const String ApplyTraining = 'ApplyTraining';
   static const String AcceptTraining = 'AcceptTraining';
-  static const String HousingDetails = 'HousingDetails';
   static const String medical_Examination = 'medical_Examination';
   static const String mobile_Phone = 'mobile_Phone';
   static const String model_2_Enlisted = 'model_2_Enlisted';
   static const String verification_Code_Page="verification_Code_Page";
-  static const String ScanFiles="ScanFiles";
+ // static const String ScanFiles="ScanFiles";
+  static const String Disclaimer="Disclaimer";
+  static const String scholarship_Portal="scholarship_Portal";
+  static const String military_education="military_education";
+  static const String training_Portal="training_Portal";
 
 }

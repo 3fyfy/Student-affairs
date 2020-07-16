@@ -7,16 +7,23 @@
          FlutterApplication and put your custom class here. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="gradution_app"
-        android:icon="@mipmap/ic_launcher">
+        android:label="student affairs"
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true"
+        >
         <meta-data android:name="com.google.android.geo.API_KEY" android:value="AIzaSyBlxNfzcxluDB6tBbrkKhaAZ2l62r6ktqs" />
-        <meta-data
-            android:name="com.google.firebase.ml.vision.DEPENDENCIES"
-            android:value="ocr"
-            />
-
+<!--        <meta-data-->
+<!--            android:name="com.google.firebase.ml.vision.DEPENDENCIES"-->
+<!--            android:value="ocr"-->
+<!--            />-->
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -37,5 +44,9 @@
             </intent-filter>
 
         </activity>
+        <activity android:name="io.github.edufolly.fluttermobilevision.ocr.OcrCaptureActivity" />
+
+        <activity android:name="io.github.edufolly.fluttermobilevision.barcode.BarcodeCaptureActivity" />
+        <activity android:name="io.github.edufolly.fluttermobilevision.face.FaceCaptureActivity" />
     </application>
 </manifest>

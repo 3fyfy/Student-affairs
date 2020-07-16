@@ -1,11 +1,44 @@
 
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gradution_app/Core/Api/api.dart';
+import 'package:gradution_app/Core/Models/Student.dart';
+import 'package:gradution_app/Core/Models/ocr_model.dart';
+import 'package:gradution_app/Core/Provider/MainProvider.dart';
 import 'package:gradution_app/UI/Screens/PasswrdLogo.dart';
 import 'package:gradution_app/UI/Screens/ScanDetails.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'dart:convert' as convert;
+import 'package:http/http.dart' as http;
+
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class ScanFiles extends StatefulWidget {
+  String name='';
+  String address='';
+  String gender='';
+  String relation='';
+  String religion='';
+  String job='';
+  String nameNomination='';
+  String previousQualification='';
+  String collage='';
+  String university='';
+
+  ScanFiles(
+      {this.name,
+      this.address,
+      this.gender,
+      this.relation,
+      this.religion,
+      this.job,
+      this.nameNomination,
+      this.previousQualification,
+      this.collage,
+      this.university});
+
   @override
   _ScanFilesState createState() => _ScanFilesState();
 }
@@ -13,14 +46,21 @@ class ScanFiles extends StatefulWidget {
 class _ScanFilesState extends State<ScanFiles>   {
 
   File nomination;
+  File nominationQR;
   File highSchool;
-  File IDcard;
+  File IDcardFront;
+  File IDcardBack;
+  File guardianIDcardFront;
+  File guardianIDcardBack;
   File Birth;
   File model2;
   File medical;
   bool done_nomination=false;
   bool done_highSchool=false;
-  bool done_IDcard=false;
+  bool done_IDcardFront=false;
+  bool done_IDcardBack=false;
+  bool done_guardianIDcardBack=false;
+  bool done_guardianIDcardFront=false;
   bool done_Birth=false;
   bool done_model2=false;
   bool done_medical=false;
@@ -28,51 +68,107 @@ class _ScanFilesState extends State<ScanFiles>   {
 
 
   bool isImageLoaded = false;
-
+bool loading=false;
 
   Future pickImage( String title ) async {
+
     var tempStore = await ImagePicker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      loading=true;
+    });
+    Api api=Api();
+    OCRModel ocrModel= await  api.VisionApiCall(tempStore).then((value) {
+    setState(() {
+      loading=false;
+    });
+      CircularProgressIndicator();
+      print(value);
+      return value;
+    });
+
+    //MainProvider mainProvider=Provider.of<MainProvider>(context);
 
     if('student Nomination Card'==title){
       setState(() {
        nomination=tempStore;
        done_nomination=true;
       });
-      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+      //mainProvider.setnomination(tempStore);
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
     }
     else if('High school certifecate'==title){
       setState(() {
         highSchool=tempStore;
         done_highSchool=true;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+      //  mainProvider.sethighSchool(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
 
       });
     }
-    else if('The students ID Card'==title){
+    else if('student National Id Front'==title){
       setState(() {
-        IDcard=tempStore;
-        done_IDcard=true;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+        IDcardFront=tempStore;
+        done_IDcardFront=true;
+
+        //mainProvider.setIDcardFront(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
 
+      });
+    }
+    else if('student National Id Back'==title){
+      setState(() {
+        IDcardBack=tempStore;
+        done_IDcardBack=true;
+       // mainProvider.setIDcardBack(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
+
+
+      });
+    }
+    else if('guardian National Id Front'==title){
+      setState(() {
+        guardianIDcardFront=tempStore;
+        done_guardianIDcardFront=true;
+        //mainProvider.setguardianIDcardFront(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
+
+
+      });
+    }
+    else if('guardian National Id Back'==title){
+      setState(() {
+        guardianIDcardBack=tempStore;
+        done_guardianIDcardBack=true;
+        //mainProvider.setguardianIDcardBack(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
       });
     }
     else if('Birth certifecate'==title){
       setState(() {
         Birth=tempStore;
         done_Birth=true;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+        //mainProvider.setBirth(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
 
       });
     }
-    else if('model2'==title){
+    else if('Profile Image'==title){
       setState(() {
        model2=tempStore;
        done_model2=true;
-       Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+      // mainProvider.setmodel2(tempStore);
+
+      // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
 
       });
@@ -81,7 +177,9 @@ class _ScanFilesState extends State<ScanFiles>   {
       setState(() {
         medical=tempStore;
         done_medical=true;
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore),));
+        //mainProvider.setmedical(tempStore);
+
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => ScanDetails(title,tempStore,ocrModel),));
 
 
       });
@@ -91,7 +189,9 @@ class _ScanFilesState extends State<ScanFiles>   {
 
   Widget buildGridItem(String title,image,bool done){
 
-
+if(image==null){
+  done=false;
+}
     double width=MediaQuery.of(context).size.width;
 
     return Container(
@@ -116,9 +216,27 @@ class _ScanFilesState extends State<ScanFiles>   {
 
                 });
               }
-              else if('The students ID Card'==title){
+              else if('student National Id Front'==title){
                 setState(() {
-                  image=IDcard;
+                  image=IDcardFront;
+
+                });
+              }
+              else if('student National Id Back'==title){
+                setState(() {
+                  image=IDcardBack;
+
+                });
+              }
+              else if('guardian National Id Front'==title){
+                setState(() {
+                  image=guardianIDcardFront;
+
+                });
+              }
+              else if('guardian National Id Back'==title){
+                setState(() {
+                  image=guardianIDcardBack;
 
                 });
               }
@@ -155,7 +273,7 @@ class _ScanFilesState extends State<ScanFiles>   {
                     width: width*.4,
                     height: 140,
                     decoration: BoxDecoration(
-                        image: DecorationImage(image:(image!=null)?FileImage(image):AssetImage("Assets/add.png",),fit: BoxFit.fitHeight)
+                        image: DecorationImage(image:(image!=null)?FileImage(image):AssetImage((title=="student Nomination QR")?"Assets/Qr.jpg":"Assets/add.png",),fit: BoxFit.fitHeight)
 
                     ),
                     child: Container(
@@ -187,21 +305,42 @@ class _ScanFilesState extends State<ScanFiles>   {
 
   }
 
+
+  int ssn=0;
+
+  pref()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    this.ssn = (prefs.getInt('SSN'));
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    pref();
+    // TODO: implement initState
+    super.initState();
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    MainProvider mainProvider=Provider.of<MainProvider>(context);
+    print(mainProvider.nameAr());
 
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text("Scan Files",style: TextStyle(color: Colors.white),),
+        title: Text("Upload Files",style: TextStyle(color: Colors.white),),
         centerTitle: true,
         leading: IconButton(icon: Icon(Icons.arrow_back_ios,color: Colors.white,), onPressed: (){
           Navigator.of(context).pop();
         }),
       ),
-      body: Padding(
+      body:(loading)?Center(child: CircularProgressIndicator()): Padding(
         padding:  EdgeInsets.only(right: width * .05, left: width * .05),
         child: CustomScrollView(
 
@@ -228,13 +367,16 @@ class _ScanFilesState extends State<ScanFiles>   {
                 childAspectRatio: (width*.4)/180,
 
               children: <Widget>[
-
-                    buildGridItem('student Nomination Card',this.nomination,done_nomination),
+                    buildGridItem('student National Id Front',IDcardFront,done_IDcardFront),
+                    buildGridItem('student National Id Back',IDcardBack,done_IDcardBack),
+                    buildGridItem('guardian National Id Front',guardianIDcardFront,done_guardianIDcardFront),
+                    buildGridItem('guardian National Id Back',guardianIDcardBack,done_guardianIDcardBack),
+                    buildGridItem('student Nomination Card',nomination,done_nomination),
+                buildGridItem('Profile Image',model2,done_model2),
+                // buildGridItem('student Nomination QR',nominationQR,done_nomination),
                     buildGridItem('High school certifecate',highSchool,done_highSchool),
-                    buildGridItem('The students ID Card',IDcard,done_IDcard),
                     buildGridItem('Birth certifecate',Birth,done_Birth),
-                    buildGridItem('model2',model2,done_model2),
-                    buildGridItem('medical',medical,done_medical),
+                  //  buildGridItem('medical',medical,done_medical),
               ],
             ),
 
@@ -242,9 +384,35 @@ class _ScanFilesState extends State<ScanFiles>   {
               child:  Padding(
                 padding: const EdgeInsets.only(top:20,bottom: 10),
                 child:InkWell(
-                  onTap: (){
+                  onTap: ()async{
 
-                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PasswordLogo(),));
+                    Api _api=Api();
+                    if(ssn!=0){
+                      Student  student=await _api.getUserProfile(ssn).then((value) => value);
+                      Guardian guardian=await _api.getUserProfile(ssn).then((value) => value.guardian);
+                      student.ssn=mainProvider.ssn();
+                      student.id=mainProvider.id();
+                      student.userName=mainProvider.userName();
+                      student.password=mainProvider.password();
+                      student.nameAr=mainProvider.nameAr();
+
+                      student.address=mainProvider.address();
+                      student.gender=mainProvider.gender();
+                      student.religion=mainProvider.religion();
+                      student.previousQualification=mainProvider.previousQualification();
+                      student.relationship=mainProvider.relationship();
+                      guardian.name=mainProvider.guardianName();
+                      guardian.ssn=111;
+                      guardian.workPlace=mainProvider.guardianAddress();
+                    //  student.guardian=guardian;
+
+                      print(student.toJson());
+                      await _api.updateStudentData(student);
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => PasswordLogo(),));
+
+                    }
+
+
 
                   },
                   child: Container(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gradution_app/UI/PasswordChange.dart';
+import 'file:///E:/projectGradution/gradution_app/lib/UI/Screens/PasswordChange.dart';
 class PasswordLogo extends StatefulWidget {
   @override
   _PasswordLogoState createState() => _PasswordLogoState();
@@ -36,7 +36,7 @@ class _PasswordLogoState extends State<PasswordLogo> {
             child:InkWell(
               onTap: (){
 
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PasswordChange(),));
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => PasswordChange(false),));
 
               },
               child: Container(

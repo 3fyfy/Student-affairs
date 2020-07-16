@@ -2,20 +2,16 @@ import 'package:flutter/material.dart';
 
 class ButtonNext extends StatelessWidget {
   final String title;
-  final String root;
 
-  ButtonNext(this.title, this.root);
+  ButtonNext(this.title);
+
+  bool _validate = false;
 
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
-    return  InkWell(
-      onTap: (){
-        Navigator.of(context).pushNamed(root);
-
-      },
-      child: Container(
+    return   Container(
         padding:  EdgeInsets.only(left:width*.07,right:width*.07 ),
       //  margin: EdgeInsets.only(left:width*.01,right:width*.01,bottom: height*.04,top: height*.04 ),
         height:40,
@@ -31,7 +27,7 @@ class ButtonNext extends StatelessWidget {
             fontFamily: 'Nunito',
           ),
         ),
-      ),
+
     );
   }
 }

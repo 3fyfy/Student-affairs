@@ -67,7 +67,7 @@ class _HousingState extends State<Housing> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
               Expanded(child: _buildCircleItem("Apply to University",Icons.add,RoutePaths.HousingHome)),
-              Expanded(child: _buildCircleItem("See the acceptance",Icons.check_circle_outline,RoutePaths.HousingDetails)),
+              Expanded(child: _buildCircleItem("See the acceptance",Icons.check_circle_outline,"")),
 
 
 

@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:gradution_app/Core/Provider/MainProvider.dart';
+import 'package:gradution_app/Core/Provider/home_model.dart';
+import 'package:gradution_app/UI/Screens/base_view.dart';
+import 'package:gradution_app/UI/Screens/samer/successfully_apply.dart';
 import 'package:gradution_app/UI/Widgets/ButtonApply.dart';
 
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HousingDetails extends StatefulWidget {
+  final double distance;
+
+  HousingDetails(this.distance);
+
   @override
   _HousingDetailsState createState() => _HousingDetailsState();
 }
@@ -44,11 +51,26 @@ class _HousingDetailsState extends State<HousingDetails> {
     );
 
   }
+  int ssn=0;
+
+  pref()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    this.ssn = (prefs.getInt('SSN'));
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    pref();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
 
-    MainProvider mainProvider=Provider.of<MainProvider>(context);
 
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
@@ -69,21 +91,31 @@ class _HousingDetailsState extends State<HousingDetails> {
         }),
       ),
 
-      body:Padding(
+      body: (ssn!=0)?BaseView<HomeModel>(
+    onModelReady: (model) => model.getStudentProfile(ssn),
+    builder: (context, model, child) => (model.student==null)?Container(
+    color: Colors.white,
+    child: Center(child: CircularProgressIndicator())): Padding(
         padding:  EdgeInsets.only(right:width*.05,left: width*.05,top: 30),
         child: ListView(
           children: <Widget>[
 
-            _buildRow("Student's name","Saad ahmed elnely"),
-            _buildRow("Section","Computer and Information Sciences"),
-            _buildRow("Place","Egypt - Damietta -First damietta"),
-            _buildRow("Distance calculation",mainProvider.distance.toString()),
+            _buildRow("Student's name",model.student.nameAr),
+            _buildRow("Section",model.student.department.name),
+            _buildRow("Place",model.student.address),
+            _buildRow("Distance calculation",widget.distance.toString()),
 
+      InkWell(
+        onTap: (){
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => SuccessfullyApply("Successfully \n "),));
 
-            ButtonAplly("Apply","")
+        },
+
+        child: ButtonAplly("Apply"))
           ],
       ),),
 
+    ):CircularProgressIndicator()
     );
   }
 }

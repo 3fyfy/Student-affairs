@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 class ComponentBasic extends StatefulWidget {
   String title;
   String detail;
-  TextEditingController controller;
+  String data;
 
-  ComponentBasic(this.title,this.controller);
+  ComponentBasic(this.title,this.data);
 
   @override
   _ComponentBasicState createState() => _ComponentBasicState();
@@ -22,7 +22,7 @@ class _ComponentBasicState extends State<ComponentBasic> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Text("${widget.title} : ",style: TextStyle(color: Colors.black54,fontSize: 20),),
-           Expanded(child:Text("${widget.controller.text}",maxLines: 1,)),
+           Expanded(child:(widget.data==null||widget.data=="null")?Text(""):Text("${widget.data}",maxLines: 1,)),
 
         ],
       ),

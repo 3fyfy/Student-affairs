@@ -1,92 +1,168 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
+import 'package:gradution_app/Core/Models/Student.dart';
+
 
 class MainProvider with ChangeNotifier{
+
 
   int _indexGrid=-1;
 
   TextEditingController _dirctorController=TextEditingController(text: 'Information Technology instute ');
   TextEditingController _StudentNameController=TextEditingController(text: 'Information Technology instute');
   TextEditingController _SectionController=TextEditingController(text: 'Information Technology instute');
-  TextEditingController _HeadController=TextEditingController(text: 'Information Technology instute');
-  TextEditingController _ViceDeanController=TextEditingController(text: 'Information Technology instute');
+  TextEditingController _organization=TextEditingController(text: '');
+  TextEditingController _description=TextEditingController(text: '');
 
-  File _nomination;
-  File _highSchool;
-  File _IDcard;
-  File _Birth;
-  File _model2;
-  File _medical;
+  Student _currentStudent;
 
-  File get nomination=>_nomination;
-  File get highSchool=>_highSchool;
-  File get IDcard=>_IDcard;
-  File get Birth=>_Birth;
-  File get model2=>_model2;
-  File get medical=>_medical;
+  Student  currentStudent() => _currentStudent;
 
-  set nomination( value){
-    _nomination=value;
+  setcurrentStudent(Student value) {
+    _currentStudent = value;
     notifyListeners();
+
+  } //Images
+  File _nomination=null;
+  File _highSchool=null;
+
+  File  IDcardFront() => _IDcardFront;
+
+   setIDcardFront(File value) {
+    _IDcardFront = value;
+
   }
-  set highSchool( value){
+
+  File _IDcardFront=null;
+  File _IDcardBack=null;
+  File _guardianIDcardFront=null;
+  File _guardianIDcardBack=null;
+  File _Birth=null;
+  File _model2=null;
+  File _medical=null;
+
+
+  //Data Student
+  String _address='';
+
+  String _birthDate='';
+  bool _gender=false;
+  String _graduationYear='';
+
+  String  address() => _address;
+
+  setaddress(String value) {
+    _address = value;
+
+
+  }
+
+  String _homeTel='';
+  int _id=0;
+  String _institute='';
+  String _mobile='';
+  String _nameAr='';
+  String _password='';
+  int _percentage=0;
+  String _previousQualification='';
+  String _relationship='';
+  int _religion=0;
+  String _guardianName='';
+  String _guardianAddress='';
+  bool _guardianGender=false;
+  String _guardianRelationship='';
+
+  String  guardianName() => _guardianName;
+
+  setguardianName(String value) {
+    _guardianName = value;
+  }
+
+  int _guardianReligion=0;
+  String _guardianJob='';
+  int _ssn=0;
+  int _status=0;
+  String _total='';
+  String _userName='';
+  int _yearCollage=0;
+  int _university=0;
+  int _collage=0;
+
+
+  int  university() => _university;
+
+  setuniversity(int value) {
+    _university = value;
+  }
+
+  File  nomination()=>_nomination;
+  File  highSchool()=>_highSchool;
+  File  Birth()=>_Birth;
+  File  model2()=>_model2;
+  File  medical()=>_medical;
+
+  setnomination( value){
+    _nomination=value;
+
+  }
+  sethighSchool( value){
 
     _highSchool=value;
-    notifyListeners();
+
   }
 
-  set IDcard( value){
 
-    _IDcard=value;
-    notifyListeners();
-  }
-  set Birth( value){
+  setBirth( value){
 
     _Birth=value;
-    notifyListeners();
+
   }
-  set model2( value){
+  setmodel2( value){
 
     _model2=value;
-    notifyListeners();
+
   }
-  set medical( value){
+  setmedical( value){
 
     _medical=value;
-    notifyListeners();
+
   }
 
 
   double _distance=0;
-  double get distance=>_distance;
+  double  distance()=>_distance;
 
-  set distance(double value){
+  setdistance(double value){
 
     _distance=value;
-    notifyListeners();
   }
 
   int _selectedCity=0;
   int _selectedCountry=0;
   int _selectedRegion=0;
 
-  int get selectedCity=>_selectedCity;
-  int get selectedCountry=>_selectedCountry;
-  int get selectedRegion=>_selectedRegion;
+  int  selectedCity()=>_selectedCity;
+  int  selectedCountry()=>_selectedCountry;
+  int  selectedRegion()=>_selectedRegion;
 
 
-  set selectedCity(int value) {
+  setselectedCity(int value) {
     _selectedCity = value;
+
+
   }
 
-  set selectedCountry(int value){
+  setselectedCountry(int value){
     _selectedCountry=value;
+
+
   }
 
-  set selectedRegion(int value){
+  setselectedRegion(int value){
     _selectedRegion=value;
+
+
   }
 
 
@@ -94,8 +170,8 @@ class MainProvider with ChangeNotifier{
   TextEditingController get dirctorController =>_dirctorController;
   TextEditingController get StudentNameController =>_StudentNameController;
   TextEditingController get SectionController =>_SectionController;
-  TextEditingController get HeadController =>_HeadController;
-  TextEditingController get ViceDeanController =>_ViceDeanController;
+  TextEditingController  organization() =>_organization;
+  TextEditingController  description() =>_description;
 
 
 
@@ -120,16 +196,16 @@ class MainProvider with ChangeNotifier{
 
   }
 
-  set HeadController (value){
+  setorganization (value){
 
-    _HeadController=value;
+    _organization=value;
     notifyListeners();
 
   }
 
-  set ViceDeanController (value){
+  setdescription (value){
 
-    _ViceDeanController=value;
+    _description=value;
     notifyListeners();
 
   }
@@ -150,6 +226,215 @@ List<bool> _flag=[false,false,false,false];
   void setflag(int idx){
     _flag[idx]=!_flag[idx];
   }
+
+  String get birthDate => _birthDate;
+
+  set birthDate(String value) {
+    _birthDate = value;
+
+    notifyListeners();
+  }
+
+  bool  gender() => _gender;
+
+  void setgender(bool value) {
+    _gender = value;
+   }
+
+  String  graduationYear() => _graduationYear;
+
+  setgraduationYear(String value) {
+    _graduationYear = value;
+
+
+  }
+
+  String  homeTel() => _homeTel;
+
+  sethomeTel(String value) {
+    _homeTel = value;
+
+
+  }
+
+  int  id() => _id;
+
+  setid(int value) {
+    _id = value;
+
+
+  }
+
+  String  institute() => _institute;
+
+  setinstitute(String value) {
+    _institute = value;
+
+
+  }
+
+  String  mobile() => _mobile;
+
+  setmobile(String value) {
+    _mobile = value;
+  }
+
+  String  nameAr() => _nameAr;
+
+  setnameAr(String value) {
+    _nameAr = value;
+
+  }
+
+  String  password() => _password;
+
+  setpassword(String value) {
+    _password = value;
+
+
+  }
+
+  int  percentage() => _percentage;
+
+  setpercentage(int value) {
+    _percentage = value;
+
+
+  }
+
+  String  previousQualification() => _previousQualification;
+
+  setpreviousQualification(String value) {
+    _previousQualification = value;
+
+
+  }
+
+  String  relationship() => _relationship;
+
+  setrelationship(String value) {
+    _relationship = value;
+
+
+  }
+
+  int  religion() => _religion;
+
+  setreligion(int value) {
+    _religion = value;
+
+
+  }
+
+  int  ssn() => _ssn;
+
+  setssn(int value) {
+    _ssn = value;
+
+
+  }
+
+  int  status() => _status;
+
+  setstatus(int value) {
+    _status = value;
+
+
+  }
+
+  String  total() => _total;
+
+  settotal(String value) {
+    _total = value;
+
+
+  }
+
+  String  userName() => _userName;
+
+  setuserName(String value) {
+    _userName = value;
+
+
+  }
+
+  int  yearCollage() => _yearCollage;
+
+  setyearCollage(int value) {
+    _yearCollage = value;
+
+
+  }
+
+  File  IDcardBack() => _IDcardBack;
+
+  setIDcardBack(File value) {
+    _IDcardBack = value;
+
+
+  }
+
+  File  guardianIDcardFront() => _guardianIDcardFront;
+
+  setguardianIDcardFront(File value) {
+    _guardianIDcardFront = value;
+
+
+  }
+
+  File  guardianIDcardBack() => _guardianIDcardBack;
+
+  setguardianIDcardBack(File value) {
+    _guardianIDcardBack = value;
+
+
+  }
+
+  int  collage() => _collage;
+
+  setcollage(int value) {
+    _collage = value;
+  }
+
+  String  guardianAddress() => _guardianAddress;
+
+  setguardianAddress(String value) {
+    _guardianAddress = value;
+  }
+
+  bool  guardianGender() => _guardianGender;
+
+  setguardianGender(bool value) {
+    _guardianGender = value;
+  }
+
+  String  guardianRelationship() => _guardianRelationship;
+
+  setguardianRelationship(String value) {
+    _guardianRelationship = value;
+  }
+
+  int  guardianReligion() => _guardianReligion;
+
+  setguardianReligion(int value) {
+    _guardianReligion = value;
+  }
+
+  String  guardianJob() => _guardianJob;
+
+  setguardianJob(String value) {
+    _guardianJob = value;
+  }
+
+
+
+
+
+
+
+
+
+
 
 
 }

@@ -1,10 +1,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:gradution_app/Core/Models/Student.dart';
+import 'package:gradution_app/Core/Provider/MainProvider.dart';
+import 'package:gradution_app/Core/Provider/home_model.dart';
 import 'package:gradution_app/UI/Screens/BasicInfoScreens/contact.dart';
 import 'package:gradution_app/UI/Screens/BasicInfoScreens/gradution.dart';
 import 'package:gradution_app/UI/Screens/BasicInfoScreens/personal.dart';
 import 'package:gradution_app/UI/Screens/BasicInfoScreens/previousqualification.dart';
+import 'package:gradution_app/UI/Screens/base_view.dart';
 import 'package:gradution_app/icons/my_flutter_app_icons.dart';
+import 'package:provider/provider.dart';
 
 
 
@@ -44,8 +49,11 @@ class _BasicInfoState extends State<BasicInfo>with SingleTickerProviderStateMixi
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
+    MainProvider mainProvider=Provider.of<MainProvider>(context);
 
-    return Scaffold(
+    return BaseView<HomeModel>(
+        onModelReady: (model) => model.getStudentProfile(mainProvider.ssn()),
+    builder: (context, model, child) => Scaffold(
 
       appBar: AppBar(
         title: Text("Basic Information",style: TextStyle(color: Colors.white),),
@@ -98,6 +106,6 @@ class _BasicInfoState extends State<BasicInfo>with SingleTickerProviderStateMixi
     ),
       )
 
-    );
+    ));
   }
 }

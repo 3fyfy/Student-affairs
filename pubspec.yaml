@@ -33,10 +33,29 @@ dependencies:
   google_maps_flutter: ^0.5.20+6
   location: ^2.3.5
   geolocator: ^5.3.1
-  mlkit: ^0.15.1
   image_picker: ^0.6.5+3
   camera: ^0.5.7+4
-  firebase_ml_vision: ^0.9.3+8
+  http: ^0.12.1
+  get_it: ^4.0.2
+  dio: ^3.0.9
+  json_serializable: ^3.3.0
+  build_runner: ^1.10.0
+  json_annotation: ^3.0.1
+  webview_flutter: ^0.3.22+1
+  #credit_card: 0.1.6
+  async: ^2.4.0
+  awesome_card: ^1.0.0+1
+  flutter_credit_card: ^0.1.1
+  onesignal_flutter: ^2.4.1
+  shared_preferences: ^0.5.7+3
+  flutter_inappwebview: ^3.3.0+3
+
+
+
+
+
+  # flutter_mobile_vision: ^0.1.4+1
+
 
 
 
@@ -80,7 +99,7 @@ flutter:
   assets:
     - Assets/
     - Assets/imags/
-
+    - Assets/disclamir/
   #  - images/a_dot_ham.jpeg
 
   fonts:

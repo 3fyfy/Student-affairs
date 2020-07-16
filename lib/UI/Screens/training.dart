@@ -66,7 +66,7 @@ class _TrainingState extends State<Training> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: <Widget>[
-              Expanded(child: _buildCircleItem("Apply to Training",Icons.add,RoutePaths.ApplyTraining)),
+              Expanded(child: _buildCircleItem("Apply to Training",Icons.add,RoutePaths.training_Portal)),
               Expanded(child: _buildCircleItem("See the acceptance",Icons.check_circle_outline,RoutePaths.AcceptTraining)),
 
 

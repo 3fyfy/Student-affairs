@@ -1,9 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gradution_app/Core/Models/fee.dart';
 import 'package:gradution_app/Core/Provider/MainProvider.dart';
+import 'package:gradution_app/Core/Provider/home_model.dart';
 import 'package:gradution_app/Core/constants/app_contstants.dart';
+import 'package:gradution_app/UI/Screens/base_view.dart';
 import 'package:gradution_app/UI/Screens/samer/registration_fees.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class RegistrationFees extends StatefulWidget {
   @override
@@ -15,7 +19,11 @@ class _RegistrationFeesState extends State<RegistrationFees> {
   List<bool> listYear=[false,false,false,false];
 bool flag=false;
 
-  Widget _build_card_item(String year,String department,int idx){
+List<String>feeType=["Registration fee","Re-examination","Material","Milarity Education"];
+
+
+  Widget _build_card_item(String year,String department,int idx,List<Fee>fees){
+
     MainProvider mainProvider=Provider.of<MainProvider>(context);
 
     double width=MediaQuery.of(context).size.width;
@@ -47,7 +55,13 @@ bool flag=false;
     );
      }
     else {
-      return Container(
+      return  (ssn!=0)? BaseView<HomeModel>(
+          onModelReady: (model) {
+        print(ssn);
+        return model.getAllFeeStudent(ssn);},
+    builder: (context, model, child) => (model.fees==null)?Container(
+    color: Colors.white,
+    child: Center(child: CircularProgressIndicator())):Container(
       padding:  EdgeInsets.all(8),
       child: Card(
 
@@ -100,75 +114,78 @@ bool flag=false;
             ),
             Padding(
               padding:  EdgeInsets.all(8),
-              child: Column(
+              child:
+              Container(
+                height: 100,
+                child: ListView.builder(
+                  itemCount: model.fees.length,
 
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          width:(width-40)/3,
-                          height: 30,
-                          child: Text("600 EGP",maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      Container(
+                  itemBuilder: (context, index) {
+                    return  ((model.fees[index].yearOfFees-1)==idx)?
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          margin: EdgeInsets.only(top: 10,bottom: 10),
+                            alignment: Alignment.centerLeft,
+                            width:(width-40)/3,
+                            height: 30,
+                            child: Text("${model.fees[index].fees} EGP",maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                        Container(
+                            alignment: Alignment.center,
+                            width:(width-40)/3,
+                            height: 30,
+                            child: Text(feeType[model.fees[index].feesId.feesType],maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                        Container(
                           alignment: Alignment.center,
                           width:(width-40)/3,
                           height: 30,
-                          child: Text("Registration fees",maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      Container(
-                          alignment: Alignment.center,
-                          width:(width-40)/3,
-                          height: 30,
-                          child: RaisedButton(
+                          child:(model.fees[index].paymentType!=0)?Text(model.fees[index].feesId.datePayment,maxLines: 1,overflow: TextOverflow.ellipsis,):RaisedButton(
 
-                              color: Theme.of(context).primaryColor,
+                            color: Theme.of(context).primaryColor,
 
-                              child: Text("Payment",maxLines: 1,overflow: TextOverflow.ellipsis,),
+                            child: Text("Payment",maxLines: 1,overflow: TextOverflow.ellipsis,),
                             onPressed: (){
 
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => registration_Fees(),));
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => registration_Fees(model.fees[index].fees),));
 
                             },
 
                           ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Container(
-                          alignment: Alignment.centerLeft,
-                          width:(width-40)/3,
-                          height: 30,
-                          child: Text("100 EGP",maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      Container(
-                          alignment: Alignment.center,
-                          width:(width-40)/3,
-                          height: 30,
-                          child: Text("Re-examination",maxLines: 1,overflow: TextOverflow.ellipsis,)),
-                      Container(
-                          alignment: Alignment.center,
-                          width:(width-40)/3,
-                          height: 30,
-                          child: Text("15/12/2018",maxLines: 1,overflow: TextOverflow.ellipsis,)),
+                        ),
+                      ],
+                    ):Container(
+                      height: 0,
+                      width: 0
+                    );
+                  },
 
 
-                    ],
-                  ),
-
-                ],
+                ),
               ),
             ),
           ],
         ),
       ),
-    );}
+    )): CircularProgressIndicator();
+    }
   }
 
+  int ssn=0;
+  pref()async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    this.ssn =  prefs.getInt('SSN');
+    setState(() {
+
+    });
+  }
+
+  @override
+  void initState() {
+    pref();
+    // TODO: implement initState
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -187,25 +204,28 @@ bool flag=false;
         }),
       ),
 
-      body: Container(
-        height: height,
-        //color: Color(0xffB3B4B7),
-        child: ListView(
+      body: (ssn!=0)? BaseView<HomeModel>(
+    onModelReady: (model) {
+    print(ssn);
+    return model.getAllFeeStudent(ssn);},
+    builder: (context, model, child) => (model.fees==null)?Container(
+        color: Colors.white,
+        child: Center(child: CircularProgressIndicator())):
+    ListView(
           children: <Widget>[
-
-            _build_card_item("Fourth","Information Technology",3),
-            _build_card_item("Third","Information Technology",2),
-            _build_card_item("Second","General",1),
-            _build_card_item("First","General",0),
+            _build_card_item("First","General",0,model.fees),
+            _build_card_item("Second","General",1,model.fees),
+            _build_card_item("Third","Information Technology",2,model.fees),
+            _build_card_item("Fourth","Information Technology",3,model.fees),
 
 
 
 
           ],
         ),
-      ),
+      )
 
-
+    : CircularProgressIndicator()
     );
   }
 }

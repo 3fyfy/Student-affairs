@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:gradution_app/UI/Screens/credit_card_payment.dart';
+import 'package:gradution_app/UI/Screens/paymentscreen.dart';
 import 'package:gradution_app/UI/Widgets/ButtonNext.dart';
 
 class registration_Fees extends StatefulWidget {
+ final int fees;
+
+  registration_Fees(this.fees);
+
   @override
   _registration_FeesState createState() => _registration_FeesState();
 }
@@ -51,7 +57,7 @@ class _registration_FeesState extends State<registration_Fees> {
                   children: <Widget>[
                     Expanded(
                       child: Text(
-                        "The amount of fees for this year 600 EGP",
+                        "The amount of fees for this year ${widget.fees} EGP",
                         style: TextStyle(
                           color: Color(0xffFFFFFF),
                           fontSize: 22,
@@ -167,7 +173,33 @@ class _registration_FeesState extends State<registration_Fees> {
                 Divider(thickness: 1,),
 
 
-                ButtonNext('Next','')
+                InkWell(
+                  onTap: (){
+                    if(_radioValue=="Paypal")
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => PaymentScreen(300),));
+                    if(_radioValue=="Credit Card")
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CreditCardPage(),));
+
+
+                  },
+                  child: Container(
+                    padding:  EdgeInsets.only(left:width*.07,right:width*.07 ),
+                    //  margin: EdgeInsets.only(left:width*.01,right:width*.01,bottom: height*.04,top: height*.04 ),
+                    height:40,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    child: Text(
+                      "Next",
+                      style: TextStyle(color: Colors.white,
+                        fontSize: 16,
+                        fontFamily: 'Nunito',
+                      ),
+                    ),
+                  ),
+                )
 
               ],
             ),

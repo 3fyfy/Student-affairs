@@ -4,6 +4,8 @@ import 'package:gradution_app/Core/Provider/MainProvider.dart';
 import 'package:gradution_app/Core/constants/app_contstants.dart';
 import 'dart:async';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:gradution_app/UI/Screens/HousingDistance.dart';
+import 'package:gradution_app/UI/Screens/housingDeatails.dart';
 import 'dart:math' show cos, sqrt, asin;
 
 import 'package:provider/provider.dart';
@@ -32,7 +34,7 @@ class _MapPageState extends State<MapPage> {
 
 
 
-  Future<void> _goToTheLake() async {
+  Future<void> _currentLocation() async {
     final GoogleMapController controller = await _controller.future;
     Position position = await Geolocator().getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
     CameraPosition _currentPosition = CameraPosition(
@@ -56,13 +58,12 @@ class _MapPageState extends State<MapPage> {
             (1 - c((lon2 - lon1) * p))/2;
     return 12742 * asin(sqrt(a));
   }
-
+double distance=0.0;
 
   @override
   Widget build(BuildContext context) {
     double width=MediaQuery.of(context).size.width;
     double height=MediaQuery.of(context).size.height;
-    MainProvider mainProvider=Provider.of<MainProvider>(context);
 
 
     return Scaffold(
@@ -77,7 +78,6 @@ class _MapPageState extends State<MapPage> {
               child:  GoogleMap(
                 markers: marker,
                 onTap: (pos) {
-                  print(pos);
                   Marker m = Marker(markerId: MarkerId('1'), position: pos);
                   setState(() {
                     marker.add(m);
@@ -114,7 +114,7 @@ class _MapPageState extends State<MapPage> {
                       )
                     ],
                   ),
-                  child: IconButton(icon: Icon(Icons.near_me,color: Theme.of(context).primaryColor,), onPressed:_goToTheLake),
+                  child: IconButton(icon: Icon(Icons.near_me,color: Theme.of(context).primaryColor,), onPressed:_currentLocation),
 
                 )),
 
@@ -123,12 +123,12 @@ class _MapPageState extends State<MapPage> {
               //left:width*.5-width*.2-20 ,
               child: InkWell(
                 onTap: (){
-                print(  calculateDistance(marker.last.position.latitude,marker.last.position.longitude,31.042089933607876, 31.356653161346912));
-                mainProvider.distance=calculateDistance(marker.last.position.latitude,marker.last.position.longitude,31.042089933607876, 31.356653161346912);
-//                  print(  calculateDistance(31.548745223887867, 31.099375002086163,31.116373561783796, 30.95443680882454));
+
+               distance=calculateDistance(marker.last.position.latitude,marker.last.position.longitude,31.042089933607876, 31.356653161346912);
+                 print(  calculateDistance(31.548745223887867, 31.099375002086163,31.116373561783796, 30.95443680882454));
 
 
-                  Navigator.of(context).pushNamed(RoutePaths.HousingDetails);
+                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => HousingDetails(distance),));
 
                 },
                 child: Container(

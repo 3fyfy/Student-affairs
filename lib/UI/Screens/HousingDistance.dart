@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gradution_app/UI/Screens/copy.dart';
 import 'package:gradution_app/UI/Screens/map.dart';
 
 class HousingDistance extends StatefulWidget {
@@ -13,7 +12,7 @@ class _HousingDistanceState extends State<HousingDistance> {
 
   List<String>City=['Egypt','USA','malawi','Macedonia'];
   List<String>Country=['Kfs','Damietta','Alexandria','Aswan','Cairo',];
-  List<String>Region=['First damietta','Faraskur','Zarqa','Gamasa','Ras ElBar'];
+  List<String>Region=["balteem",'First damietta','Faraskur','Zarqa','Gamasa','Ras ElBar'];
 
 
 
